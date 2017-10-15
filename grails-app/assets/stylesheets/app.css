@@ -1,0 +1,24 @@
+/*
+*= require bulma/css/bulma
+*= require_self
+*/
+
+html {
+    background: #F8F8F8;
+}
+
+.is-clearfix {
+    margin-bottom: 15px;
+}
+
+.card {
+    margin-bottom: 10px;
+}
+
+.table {
+    margin-bottom: 10px;
+}
+
+.notification {
+    margin-top: 10px;
+}
