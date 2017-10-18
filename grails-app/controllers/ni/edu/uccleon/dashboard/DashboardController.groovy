@@ -3,12 +3,14 @@ package ni.edu.uccleon.dashboard
 import ni.edu.uccleon.CategoryService
 import ni.edu.uccleon.UtilityService
 import ni.edu.uccleon.TableService
+import ni.edu.uccleon.ItemService
 
 class DashboardController {
 
     @Autowired CategoryService categoryService
     @Autowired UtilityService utilityService
     @Autowired TableService tableService
+    @Autowired ItemService itemService
 
     def index() {
         [
@@ -35,8 +37,8 @@ class DashboardController {
 
     private Summary createItemSummary() {
         new Summary(
-            total: categoryService.count(),
-            totalDisabled: categoryService.countByEnabled(false)
+            total: itemService.count(),
+            totalDisabled: itemService.countByEnabled(false)
         )
     }
 }
