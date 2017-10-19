@@ -49,10 +49,19 @@ grails {
                 // DASHBOARD
                 [pattern: '/secure/dashboard',                          access: ['ROLE_MANAGER', 'ROLE_ADMINISTRATOR']],
 
+                // MENU
+                [pattern: '/secure/menu',                               access: ['ROLE_WAITER']],
+                [pattern: '/secure/menu/*',                             access: ['ROLE_WAITER']],
+
                 // USERS
+                [pattern: '/secure/users/profile',                      access: ['ROLE_MANAGER', 'ROLE_ADMINISTRATOR', 'ROLE_WAITER', 'ROLE_CHEF']],
+                [pattern: '/secure/users/update/profile',               access: ['ROLE_MANAGER', 'ROLE_ADMINISTRATOR', 'ROLE_WAITER', 'ROLE_CHEF']],
+                [pattern: '/secure/users/password',                     access: ['ROLE_MANAGER', 'ROLE_ADMINISTRATOR', 'ROLE_WAITER', 'ROLE_CHEF']],
+                [pattern: '/secure/users/update/password',              access: ['ROLE_MANAGER', 'ROLE_ADMINISTRATOR', 'ROLE_WAITER', 'ROLE_CHEF']],
                 [pattern: '/secure/users/**',                           access: ['ROLE_MANAGER']],
 
                 // TABLES
+                [pattern: '/secure/tables/list',                        access: ['ROLE_WAITER']],
                 [pattern: '/secure/tables/**',                          access: ['ROLE_MANAGER', 'ROLE_ADMINISTRATOR']],
 
                 // CATEGORIES

@@ -13,6 +13,8 @@ interface IItemService {
 
     Number countByEnabled(final Boolean enabled)
 
+    List<Item> listByCategoryName(final String categoryName)
+
     Item save(final String name, final Integer price, final String description, final Serializable categoryId)
 
     Item update(final Serializable id, final String name, final Integer price, final Boolean enabled, final String description, final Serializable categoryId)
@@ -22,6 +24,10 @@ interface IItemService {
 abstract class ItemService implements IItemService {
 
     @Autowired CategoryService categoryService
+
+    List<Item> listByCategoryName(final String categoryName) {
+        Item.where { category.name == categoryName }.list()
+    }
 
     Item save(final String name, final Integer price, final String description, final Serializable categoryId) {
         Category category = categoryService.find(categoryId)
