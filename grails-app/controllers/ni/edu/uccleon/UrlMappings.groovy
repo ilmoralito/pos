@@ -32,6 +32,9 @@ class UrlMappings {
             // ITEMS
             '/items'(resources: 'item', excludes: ['delete'])
 
+            // CURSTOMERS
+            '/customers'(resources: 'customer')
+
             // MENU
             get "/menu/$categoryName?"(controller: 'menu', action: 'index')
         }

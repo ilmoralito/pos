@@ -69,6 +69,9 @@ grails {
 
                 // ITEMS
                 [pattern: '/secure/items/**',                           access: ['ROLE_MANAGER', 'ROLE_ADMINISTRATOR']],
+
+                 // CUSTOMERS
+                [pattern: '/secure/customers/**',                       access: ['ROLE_MANAGER', 'ROLE_ADMINISTRATOR']],
             ]
         }
     }

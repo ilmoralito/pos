@@ -20,4 +20,12 @@
             <g:link resource="${controllerName == 'category' ? 'category' : 'item'}" action="index" class="${controllerName in ['category', 'item'] ? 'is-active' : ''}">Articulos</g:link>
         </li>
     </ul>
+
+    <p class="menu-label">Clientes</p>
+
+    <ul class="menu-list">
+        <li>
+            <g:link resource="customer" action="index" class="${controllerName == 'customer' ? 'is-active' : ''}">Lista de clientes</g:link>
+        </li>
+    </ul>
 </aside>
