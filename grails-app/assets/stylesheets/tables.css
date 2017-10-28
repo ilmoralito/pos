@@ -1,0 +1,18 @@
+ul.tables {
+    text-align: center;
+}
+
+ul.tables li {
+    border: 2px solid #DDD;
+    box-sizing: border-box;
+    display: inline-block;
+    text-align: center;
+    line-height: 100px;
+    width: 100px;
+    height: 100px;
+    margin: 5px;
+}
+
+ul.tables li.busy {
+    border-color: #209CEE;
+}

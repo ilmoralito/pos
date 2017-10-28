@@ -47,4 +47,8 @@ class TableController {
             respond e.errors, view: 'edit'
         }
     }
+
+    def list() {
+        respond tableService.listByEnabled(true)
+    }
 }

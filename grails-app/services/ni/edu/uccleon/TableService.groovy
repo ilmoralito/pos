@@ -15,5 +15,7 @@ interface TableService {
 
     Number countByEnabled(final Boolean enabled)
 
+    List<Table> listByEnabled(final Boolean enabled)
+
     Table update(final Serializable id, final Integer number, final Boolean enabled)
 }

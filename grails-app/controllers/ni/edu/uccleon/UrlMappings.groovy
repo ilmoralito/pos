@@ -25,6 +25,7 @@ class UrlMappings {
 
             // TABLES
             '/tables'(resources: 'table', excludes: ['delete'])
+            '/tables/list'(controller: 'table', action: 'list', method: 'GET')
 
             // CATEGORY
             '/categories'(resources: 'category', excludes: ['delete'])
