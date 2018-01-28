@@ -1,5 +1,7 @@
 package ni.edu.uccleon
 
+import ni.edu.uccleon.user.UpdateUserComand
+import ni.edu.uccleon.user.SaveUserComand
 import grails.gorm.services.Service
 
 interface IUserService {
@@ -12,9 +14,9 @@ interface IUserService {
 
     User restorePassword(final Serializable id)
 
-    User save(final String username, final String fullName, final List<String> authorityList)
+    User save(SaveUserComand command)
 
-    User update(final Serializable id, final String username, final String fullName, final Boolean enabled, final List<String> authorityList)
+    User update(UpdateUserComand command)
 }
 
 @Service(User)
@@ -34,43 +36,39 @@ abstract class UserService implements IUserService {
     }
 
     @Override
-    User save(final String username, final String fullName, final List<String> authorityList) {
-        User user = new User(
-            username: username,
-            fullName: fullName
-        ).save(failOnError: true)
+    User save(SaveUserComand command) {
+        User user = new User()
 
-        createUserRole(authorityList, user)
+        user.properties = command.properties
+        user.save(failOnError: true)
+
+        createUserRole(command.roles, user)
 
         user
     }
 
     @Override
-    User update(final Serializable id, final String username, final String fullName, final Boolean enabled, final List<String> authorityList) {
-        User user = find(id)
+    User update(UpdateUserComand command) {
+        User user = find(command.id)
 
         if (user) {
-            user.username = username
-            user.fullName = fullName
-            user.enabled = enabled
-
-            UserRole.removeAll(user)
-
-            createUserRole(authorityList, user)
-
+            user.properties = command.properties
             user.save(failOnError: true)
+
+            removeUserRoles(user)
+            createUserRole(command.roles, user)
         }
 
         user
     }
 
-    private void createUserRole(final List<String> authorityList, final User user) {
-        authorityList.each { authority ->
-            Role role = Role.findByAuthority(authority)
+    private void removeUserRoles(final User user) {
+        UserRole.removeAll(user)
+    }
 
-            if (role) {
-                UserRole.create(user, role, true)
-            }
+    private void createUserRole(final List<Role> roles, final User user) {
+        roles.each { role ->
+            UserRole.create(user, role, true)
         }
     }
 }

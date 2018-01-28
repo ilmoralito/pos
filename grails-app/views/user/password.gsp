@@ -1,4 +1,4 @@
-<g:applyLayout name="oneColumn">
+<g:applyLayout name="oneSmallColumn">
     <head>
         <title>Actualizar clave</title>
     </head>

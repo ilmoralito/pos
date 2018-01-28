@@ -6,7 +6,7 @@ import ni.edu.uccleon.Customer
 
 class CustomerController {
 
-    @Autowired CustomerService customerService
+    CustomerService customerService
 
     static allowedMethods = [ save: 'POST', update: 'PUT', delete: 'DELETE' ]
 
@@ -22,9 +22,15 @@ class CustomerController {
         respond new Customer(params)
     }
 
-    def save(final String fullName, final String email) {
+    def save(SaveCustomerCommand command) {
+        if (command.hasErrors()) {
+            respond ([errors: command.errors], view: 'create')
+
+            return
+        }
+
         try {
-            Customer customer = customerService.save(fullName, email)
+            Customer customer = customerService.save(command)
 
             flash.message = 'Cliente creado'
             redirect customer
@@ -37,11 +43,17 @@ class CustomerController {
         respond id ? customerService.find(id) : null
     }
 
-    def update(final Long id, final String fullName, final String email) {
-        try {
-            Customer customer = customerService.update(id, fullName, email)
+    def update(UpdateCustomerCommand command) {
+        if (command.hasErrors()) {
+            respond ([errors: command.errors], model: [customer: customerService.find(command.id)], view: 'edit')
 
-            flash.message = 'Datos de cliente actualizado'
+            return
+        }
+
+        try {
+            Customer customer = customerService.update(command)
+
+            flash.message = 'Cliente actualizado'
             redirect customer
         } catch(ValidationException e) {
             respond ([errors: e.errors], model: [customer: customerService.find(id)], view: 'edit')

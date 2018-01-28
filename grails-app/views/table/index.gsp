@@ -10,10 +10,8 @@
             </div>
 
             <table class="table is-bordered is-fullwidth">
-                <colgroup>
-                    <col span="1" style="width: 86%;">
-                    <col span="1" style="width: 14%;">
-                </colgroup>
+                <col width="87%">
+                <col width="13%">
 
                 <thead>
                     <tr>

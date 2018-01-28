@@ -5,10 +5,8 @@
 
     <content tag="main">
         <table class="table is-bordered is-fullwidth">
-            <colgroup>
-                <col span="1" style="width: 25%;">
-                <col span="1" style="width: 75%;">
-            </colgroup>
+            <col width="25%">
+            <col width="75%">
 
             <tbody>
                 <tr>
@@ -17,14 +15,14 @@
                 </tr>
 
                 <tr>
-                    <td>Nombre</td>
+                    <td>Precio</td>
                     <td>
                         <g:formatNumber number="${item.price}" type="currency" currencyCode="NIO"/>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>Nombre</td>
+                    <td>Descripcion</td>
                     <td>${item.description}</td>
                 </tr>
 

@@ -1,5 +1,7 @@
 package ni.edu.uccleon
 
+import ni.edu.uccleon.item.UpdateItemCommand
+import ni.edu.uccleon.item.SaveItemCommand
 import ni.edu.uccleon.CategoryService
 import grails.gorm.services.Service
 
@@ -15,50 +17,47 @@ interface IItemService {
 
     List<Item> listByCategoryName(final String categoryName)
 
-    Item save(final String name, final Integer price, final String description, final Serializable categoryId)
+    Item save(SaveItemCommand command)
 
-    Item update(final Serializable id, final String name, final Integer price, final Boolean enabled, final String description, final Serializable categoryId)
+    Item update(UpdateItemCommand command)
 }
 
 @Service(Item)
 abstract class ItemService implements IItemService {
 
-    @Autowired CategoryService categoryService
+    CategoryService categoryService
 
     List<Item> listByCategoryName(final String categoryName) {
         Item.where { category.name == categoryName }.list()
     }
 
-    Item save(final String name, final Integer price, final String description, final Serializable categoryId) {
-        Category category = categoryService.find(categoryId)
+    Item save(SaveItemCommand command) {
+        Category category = categoryService.find(command.categoryId)
 
         if (!category) {
             throw new IllegalArgumentException("Category $categoryId not found")
         }
 
-        Item item = new Item(
-            name: name,
-            price: price,
-            description: description
-        )
+        Item item = new Item()
+
+        item.properties = command.properties
 
         category.addToItems(item)
 
         item.save(failOnError: true)
     }
 
-    Item update(final Serializable id, final String name, final Integer price, final Boolean enabled, final String description, final Serializable categoryId) {
-        Category category = categoryService.find(categoryId)
-        Item item = find(id)
+    Item update(UpdateItemCommand command) {
+        Category category = categoryService.find(command.categoryId)
+        Item item = find(command.id)
 
         if (item && category) {
-            item.name = name
-            item.price = price
-            item.enabled = enabled
-            item.description = description
-            item.category = category
+            item.properties = command.properties
 
-            item.save(failOnError: true, flush: true)
+            category.removeFromItems(item)
+            category.addToItems(item)
+
+            item.save(flush: true)
         }
 
         item

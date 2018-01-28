@@ -54,10 +54,10 @@ grails {
                 [pattern: '/secure/menu/*',                             access: ['ROLE_WAITER']],
 
                 // USERS
-                [pattern: '/secure/users/profile',                      access: ['ROLE_MANAGER', 'ROLE_ADMINISTRATOR', 'ROLE_WAITER', 'ROLE_CHEF']],
-                [pattern: '/secure/users/update/profile',               access: ['ROLE_MANAGER', 'ROLE_ADMINISTRATOR', 'ROLE_WAITER', 'ROLE_CHEF']],
-                [pattern: '/secure/users/password',                     access: ['ROLE_MANAGER', 'ROLE_ADMINISTRATOR', 'ROLE_WAITER', 'ROLE_CHEF']],
-                [pattern: '/secure/users/update/password',              access: ['ROLE_MANAGER', 'ROLE_ADMINISTRATOR', 'ROLE_WAITER', 'ROLE_CHEF']],
+                [pattern: '/secure/users/profile',                      access: ['ROLE_MANAGER', 'ROLE_ADMINISTRATOR', 'ROLE_WAITER', 'ROLE_CHEF', 'ROLE_CASHIER', 'ROLE_BARTENDER']],
+                [pattern: '/secure/users/update/profile',               access: ['ROLE_MANAGER', 'ROLE_ADMINISTRATOR', 'ROLE_WAITER', 'ROLE_CHEF', 'ROLE_CASHIER', 'ROLE_BARTENDER']],
+                [pattern: '/secure/users/password',                     access: ['ROLE_MANAGER', 'ROLE_ADMINISTRATOR', 'ROLE_WAITER', 'ROLE_CHEF', 'ROLE_CASHIER', 'ROLE_BARTENDER']],
+                [pattern: '/secure/users/update/password',              access: ['ROLE_MANAGER', 'ROLE_ADMINISTRATOR', 'ROLE_WAITER', 'ROLE_CHEF', 'ROLE_CASHIER', 'ROLE_BARTENDER']],
                 [pattern: '/secure/users/**',                           access: ['ROLE_MANAGER']],
 
                 // TABLES
@@ -72,6 +72,9 @@ grails {
 
                  // CUSTOMERS
                 [pattern: '/secure/customers/**',                       access: ['ROLE_MANAGER', 'ROLE_ADMINISTRATOR']],
+
+                // ORDERS
+                [pattern: '/secure/orders/**',                          access: ['ROLE_WAITER']],
             ]
         }
     }

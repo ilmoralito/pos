@@ -13,18 +13,20 @@
             <div class="hero-body">
                 <div class="container">
                     <div class="columns">
-                        <div class="column is-4">
-                            <h1 class="title">Parador turistico. SAYULAPA</h1>
-                            <h2 class="subtitle">La mesa esta servida</h2>
-                        </div>
-                
+                        <div class="column is-4"></div>
                         <div class="column">
-                            <g:layoutBody/>
-                
-                            <g:if test="${flash?.message}">
-                                <div class="notification is-info" style="margin-top: 10px;">${flash.message}</div>
-                            </g:if>
+                            <div class="box">
+                                <h1 class="is-size-3 has-text-centered">Identificate</h1>
+
+                                <g:layoutBody/>
+
+                                <g:if test="${flash?.message}">
+                                    <br>
+                                    <div class="notification is-info">${flash.message}</div>
+                                </g:if>
+                            </div>
                         </div>
+                        <div class="column is-4"></div>
                     </div>
                 </div>
             </div>

@@ -12,6 +12,7 @@ class Customer {
 
     static mapping = {
         table 'pos_customers'
+        sort 'fullName'
         version false
     }
 }

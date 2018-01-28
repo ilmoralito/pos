@@ -3,12 +3,13 @@ package ni.edu.uccleon.item
 import grails.validation.ValidationException
 import ni.edu.uccleon.CategoryService
 import ni.edu.uccleon.ItemService
+import ni.edu.uccleon.Category
 import ni.edu.uccleon.Item
 
 class ItemController {
 
-    @Autowired CategoryService categoryService
-    @Autowired ItemService itemService
+    CategoryService categoryService
+    ItemService itemService
 
     static allowedMethods = [ save: 'POST', update: 'PUT' ]
 
@@ -21,38 +22,59 @@ class ItemController {
     }
 
     def create() {
-        respond new Item(params), model: [categoryList: categoryService.listByEnabled(true)]
+        respond new Item(params), model: [categoryList: makeItemModel().categoryList]
     }
 
-    def save(final String name, final Integer price, final String description, final Long categoryId) {
-        try {
-            Item item = itemService.save(name, price, description, categoryId)
+    def save(SaveItemCommand command) {
+        if (command.hasErrors()) {
+            respond ([errors: command.errors], model: [categoryList: makeItemModel().categoryList], view: 'create')
 
-            flash.message = 'Articulo agregado'
+            return
+        }
+
+        try {
+            Item item = itemService.save(command)
+
+            flash.message = 'Articulo creado'
             redirect item
         } catch(ValidationException e) {
-            respond ([errors: e.errors], model: [categoryList: categoryService.listByEnabled(true)], view: 'create')
-        } catch(Exception e) {
-            flash.message = 'Parametro <category> es requerido'
-
-            redirect uri: '/secure/dashboard', method: 'GET'
+            respond ([errors: e.errors], model: [categoryList: makeItemModel().categoryList], view: 'create')
         }
     }
 
     def edit(final Long id) {
         Item item = id ? itemService.find(id) : null
 
-        respond item, model: [categoryList: categoryService.listByEnabled(true)]
+        respond item, model: [categoryList: makeItemModel().categoryList]
     }
 
-    def update(final Long id, final String name, final Integer price, final String description, final Boolean enabled, final Long categoryId) {
+    def update(UpdateItemCommand command) {
+        if (command.hasErrors()) {
+            respond (
+                [errors: command.errors],
+                model: [
+                    item: itemService.find(command.id),
+                    categoryList: makeItemModel().categoryList
+                ],view: 'edit')
+
+            return
+        }
+
         try {
-            Item item = itemService.update(id, name, price, enabled ?: false, description, categoryId)
+            Item item = itemService.update(command)
 
             flash.message = 'Articulo actualizado'
             redirect item
         } catch(ValidationException e) {
-            respond e.errors, model: [categoryList: categoryService.listByEnabled(true)], view: 'edit'
+            respond e.errors, model: [categoryList: makeItemModel().categoryList], view: 'edit'
         }
     }
+
+    private ItemModel makeItemModel() {
+        new ItemModel (categoryList: categoryService.listByEnabled(true))
+    }
+}
+
+class ItemModel {
+    List<Category> categoryList
 }

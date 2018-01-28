@@ -1,6 +1,5 @@
 /*
 *= require bulma/css/bulma
-*= require tables
 *= require_self
 */
 
@@ -22,4 +21,8 @@ html {
 
 .notification {
     margin-top: 10px;
+}
+
+.is-size-8 {
+    font-size: 0.65rem;
 }

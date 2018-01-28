@@ -21,13 +21,17 @@ class BootStrap {
         Role chefRole = Role.findByAuthority('ROLE_CHEF') ?: new Role(authority: 'ROLE_CHEF').save(failOnError: true)
         Role waiterRole = Role.findByAuthority('ROLE_WAITER') ?: new Role(authority: 'ROLE_WAITER').save(failOnError: true)
         Role managerRole = Role.findByAuthority('ROLE_MANAGER') ?: new Role(authority: 'ROLE_MANAGER').save(failOnError: true)
+        Role cashierRole = Role.findByAuthority('ROLE_CASHIER') ?: new Role(authority: 'ROLE_CASHIER').save(failOnError: true)
+        Role bartenderRole = Role.findByAuthority('ROLE_BARTENDER') ?: new Role(authority: 'ROLE_BARTENDER').save(failOnError: true)
         Role administratorRole = Role.findByAuthority('ROLE_ADMINISTRATOR') ?: new Role(authority: 'ROLE_ADMINISTRATOR').save(failOnError: true)
 
         // USERS
         User chefUser = User.findByUsername('chef') ?: new User(username: 'chef', fullName: 'Chef Name', password: 'temporal').save(failOnError: true)
         User waiterUser = User.findByUsername('waiter') ?: new User(username: 'waiter', fullName: 'Waiter Name', password: 'temporal').save(failOnError: true)
         User managerUser = User.findByUsername('manager') ?: new User(username: 'manager', fullName: 'Manager Name', password: 'temporal').save(failOnError: true)
-        User administartorUser = User.findByUsername('administartor') ?: new User(username: 'administartor', fullName: 'Administartor Name', password: 'temporal').save(failOnError: true)
+        User cashierUser = User.findByUsername('cashier') ?: new User(username: 'cashier', fullName: 'Cashier Name', password: 'temporal').save(failOnError: true)
+        User bartenderUser= User.findByUsername('bartender') ?: new User(username: 'bartender', fullName: 'Bartender Name', password: 'temporal').save(failOnError: true)
+        User administratorUser = User.findByUsername('administrator') ?: new User(username: 'administrator', fullName: 'Administartor Name', password: 'temporal').save(failOnError: true)
 
         // USER ROLE
         if (!UserRole.exists(chefUser.id, chefRole.id)) {
@@ -42,8 +46,16 @@ class BootStrap {
             UserRole.create managerUser, managerRole
         }
 
-        if (!UserRole.exists(administartorUser.id, administratorRole.id)) {
-            UserRole.create administartorUser, administratorRole
+        if (!UserRole.exists(bartenderUser.id, bartenderRole.id)) {
+            UserRole.create bartenderUser, bartenderRole
+        }
+
+        if (!UserRole.exists(cashierUser.id, cashierRole.id)) {
+            UserRole.create cashierUser, cashierRole
+        }
+
+        if (!UserRole.exists(administratorUser.id, administratorRole.id)) {
+            UserRole.create administratorUser, administratorRole
         }
 
         UserRole.withSession {

@@ -16,12 +16,16 @@ class UrlMappings {
             // DASHBOARD
             '/dashboard'(controller: 'dashboard', action: 'index')
 
+            // ORDER
+            "/orders/barra/$type"(controller: 'order', action: 'index', method: 'GET')
+
             // USER
-            '/users'(resources: 'user', excludes: ['delete']) {
-                collection {
-                    '/restorePassword'(controller: 'user', action: 'restorePassword', method: 'PUT')
-                }
-            }
+            '/users'(resources: 'user', excludes: ['delete'])
+            "/users/restore/password/$id"(controller: 'user', action: 'restorePassword', method: 'PUT')
+            '/users/profile'(controller: 'user', action: 'profile', method: 'GET')
+            '/users/update/profile'(controller: 'user', action: 'updateProfile', method: 'PUT')
+            '/users/password'(controller: 'user', action: 'password', method: 'GET')
+            '/users/update/password'(controller: 'user', action: 'updatePassword', method: 'PUT')
 
             // TABLES
             '/tables'(resources: 'table', excludes: ['delete'])
@@ -40,11 +44,14 @@ class UrlMappings {
             get "/menu/$categoryName?"(controller: 'menu', action: 'index')
         }
 
-        // USERS
-        get '/secure/users/profile'(controller: 'user', action: 'profile')
-        put '/secure/users/update/profile'(controller: 'user', action: 'updateProfile')
-        get '/secure/users/password'(controller: 'user', action: 'password')
-        put '/secure/users/update/password'(controller: 'user', action: 'updatePassword')
+        // ORDER
+        '/secure/orders'(resources: 'order', excludes: ['create']) {
+            '/details'(resources: 'orderDetail', excludes: ['create']) {
+                collection {
+                    '/menu'(controller: 'orderDetail', action: 'menu', method: 'GET')
+                }
+            }
+        }
 
         '500'(view:'/error')
         '404'(view:'/notFound')

@@ -3,21 +3,34 @@
 
     <ul class="menu-list">
         <li>
-            <a href="/secure/dashboard" class="${controllerName == 'dashboard' ? 'is-active' : ''}">Dashboard</a>
-        </li>
-        <li>
-            <g:link resource="user" action="index" class="${controllerName == 'user' ? 'is-active' : ''}">Empleados</g:link>
+            <a
+                href="/secure/dashboard"
+                class="${controllerName == 'dashboard' ? 'is-active' : ''}">Dashboard</a>
         </li>
     </ul>
 
     <p class="menu-label">Restaurante</p>
 
     <ul class="menu-list">
+        <sec:ifAllGranted roles='ROLE_MANAGER'>
+            <li>
+                <g:link
+                    resource="user"
+                    action="index"
+                    class="${controllerName == 'user' ? 'is-active' : ''}">Empleados</g:link>
+            </li>
+        </sec:ifAllGranted>
         <li>
-            <g:link resource="table" action="index" class="${controllerName == 'table' ? 'is-active' : ''}">Mesas</g:link>
+            <g:link
+                resource="table"
+                action="index"
+                class="${controllerName == 'table' ? 'is-active' : ''}">Mesas</g:link>
         </li>
         <li>
-            <g:link resource="${controllerName == 'category' ? 'category' : 'item'}" action="index" class="${controllerName in ['category', 'item'] ? 'is-active' : ''}">Articulos</g:link>
+            <g:link
+                resource="${controllerName == 'category' ? 'category' : 'item'}"
+                    action="index"
+                    class="${controllerName in ['category', 'item'] ? 'is-active' : ''}">Articulos</g:link>
         </li>
     </ul>
 
@@ -25,7 +38,10 @@
 
     <ul class="menu-list">
         <li>
-            <g:link resource="customer" action="index" class="${controllerName == 'customer' ? 'is-active' : ''}">Lista de clientes</g:link>
+            <g:link
+                resource="customer"
+                action="index"
+                class="${controllerName == 'customer' ? 'is-active' : ''}">Lista de clientes</g:link>
         </li>
     </ul>
 </aside>

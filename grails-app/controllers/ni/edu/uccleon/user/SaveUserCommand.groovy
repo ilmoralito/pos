@@ -1,14 +1,15 @@
 package ni.edu.uccleon.user
 
-class SaveUserComand implements grails.validation.Validateable {
+import grails.compiler.GrailsCompileStatic
+import grails.validation.Validateable
+import ni.edu.uccleon.Role
 
-    String username
-    String fullName
-    List<String> authorityList
+@GrailsCompileStatic
+class SaveUserComand extends SaveUserProfileCommand implements Validateable {
+
+    List<Role> roles
 
     static constraints = {
-        username nullable: false, blank: false
-        fullName nullable: false, blank: false
-        authorityList nullable: false, min: 1
+        roles nullable: false, min: 1
     }
 }

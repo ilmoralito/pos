@@ -28,7 +28,7 @@
         <div class="field">
             <div class="control">
                 <label class="checkbox">
-                    <g:checkBox name="authorityList" value="${role.authority}" checked="${role in userRoleList}"/> ${role.authority}
+                    <g:checkBox name="roles" value="${role.id}" checked="${role in userRoleList}"/> ${role.authority}
                 </label>
             </div>
         </div>

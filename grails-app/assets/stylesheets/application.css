@@ -2,3 +2,8 @@
 *= require bulma/css/bulma
 *= require_self
 */
+
+body {
+    background: #EEE;
+    height: 100vh;
+}

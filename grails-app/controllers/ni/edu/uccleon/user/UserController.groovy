@@ -8,9 +8,9 @@ import ni.edu.uccleon.User
 
 class UserController {
 
-    @Autowired UserRoleService userRoleService
-    @Autowired UserService userService
-    @Autowired RoleService roleService
+    UserRoleService userRoleService
+    UserService userService
+    RoleService roleService
 
     static allowedMethods = [
         save: 'POST',
@@ -27,6 +27,8 @@ class UserController {
     def show(final Long id) {
         User user = userService.find(id)
 
+        if (!user) response.sendError 404
+
         respond user, model: [userRoleList: userRoleService.userRoles(user)]
     }
 
@@ -41,7 +43,7 @@ class UserController {
         }
 
         try {
-            User user = userService.save(command.username, command.fullName, command.authorityList)
+            User user = userService.save(command)
 
             flash.message = 'Usuario creado'
             redirect user
@@ -66,7 +68,7 @@ class UserController {
         }
 
         try {
-            User user = userService.update(command.id, command.username, command.fullName, command.enabled, command.authorityList)
+            User user = userService.update(command)
 
             flash.message = 'Usuario actualizado'
             redirect user
@@ -75,13 +77,8 @@ class UserController {
         }
     }
 
-    def restorePassword(final Long userId) {
-        User user = userService.restorePassword(userId)
-
-        if (!user) {
-            notFound(userId)
-            return
-        }
+    def restorePassword(final Long id) {
+        User user = userService.restorePassword(id)
 
         flash.message = 'Clave de paso restaurada'
         redirect user
@@ -91,13 +88,19 @@ class UserController {
         respond authenticatedUser
     }
 
-    def updateProfile() {
+    def updateProfile(SaveUserProfileCommand command) {
+        if (command.hasErrors()) {
+            respond ([errors: command.errors], model: [user: authenticatedUser], view: 'profile')
+
+            return
+        }
+
         try {
             User user = authenticatedUser
 
-            user.properties = params
+            user.properties = command.properties
 
-            user.save(failOnError: true)
+            user.save(flush: true)
 
             flash.message = 'Perfil actualizado'
             redirect uri: '/secure/users/profile', method: 'GET'
@@ -106,8 +109,7 @@ class UserController {
         }
     }
 
-    def password() {
-    }
+    def password() {}
 
     def updatePassword(final UpdatePasswordCommand command) {
         if (command.hasErrors()) {
@@ -119,11 +121,5 @@ class UserController {
 
         flash.message = 'Clave actualizada'
         redirect uri: '/secure/users/password'
-    }
-
-    private void notFound(final Long userId) {
-        flash.message = "El usuario con id $userId no se ha encontrado"
-
-        redirect uri: '/secure/users', method: 'GET'
     }
 }

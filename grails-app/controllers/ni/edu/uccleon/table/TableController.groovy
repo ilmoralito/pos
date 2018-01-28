@@ -6,7 +6,7 @@ import ni.edu.uccleon.Table
 
 class TableController {
 
-    @Autowired TableService tableService
+    TableService tableService
 
     static allowedMethods = [ save: 'POST', update: 'PUT' ]
 
@@ -14,17 +14,23 @@ class TableController {
         respond tableService.list()
     }
 
-    def show(final Long id) {
-        respond id ? tableService.find(id) : null
-    }
-
     def create() {
         respond new Table(params)
     }
 
-    def save(final Integer number) {
+    def show(final Long id) {
+        respond id ? tableService.find(id) : null
+    }
+
+    def save(SaveTableCommand command) {
+        if (command.hasErrors()) {
+            respond ([errors: command.errors], view: 'create')
+
+            return
+        }
+
         try {
-            Table table = tableService.save(number)
+            Table table = tableService.save(command)
 
             flash.message = 'Mesa agregada'
             redirect table
@@ -37,14 +43,20 @@ class TableController {
         respond id ? tableService.find(id) : null
     }
 
-    def update(final Long id, final Integer number, final Boolean enabled) {
+    def update(UpdateTableCommand command) {
+        if (command.hasErrors()) {
+            respond ([errors: command.errors], model: [table: tableService.find(command.id)], view: 'edit')
+
+            return
+        }
+
         try {
-            Table table = tableService.update(id, number, enabled ?: false)
+            Table table = tableService.update(command)
 
             flash.message = 'Mesa actualizada'
             redirect table
         } catch(ValidationException e) {
-            respond e.errors, view: 'edit'
+            respond ([errors: e.errors], model: [table: e], view: 'edit')
         }
     }
 

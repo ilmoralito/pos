@@ -7,18 +7,18 @@ import ni.edu.uccleon.ItemService
 
 class DashboardController {
 
-    @Autowired CategoryService categoryService
-    @Autowired UtilityService utilityService
-    @Autowired TableService tableService
-    @Autowired ItemService itemService
+    CategoryService categoryService
+    UtilityService utilityService
+    TableService tableService
+    ItemService itemService
 
     def index() {
-        [
+        respond ([:], model: [
             roleSummary: utilityService.roleSummary(),
             categorySummary: createCategorySummary(),
             tableSummary: createTableSummary(),
             itemSummary: createItemSummary(),
-        ]
+        ])
     }
 
     private Summary createTableSummary() {

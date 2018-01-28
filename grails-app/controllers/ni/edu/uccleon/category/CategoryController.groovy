@@ -6,7 +6,7 @@ import ni.edu.uccleon.Category
 
 class CategoryController {
 
-    @Autowired CategoryService categoryService
+    CategoryService categoryService
 
     static allowedMethods = [ save: 'POST', update: 'PUT' ]
 
